@@ -6,17 +6,59 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="auth.js"></script>
-<script>checkAuth();</script>
-  
+  <script>checkAuth();</script>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen px-4">
 
   <div class="bg-white shadow-md rounded-lg p-8 w-full max-w-xl text-center">
-    <h2 class="text-2xl font-bold text-green-700 mb-4">Donation Records</h2>
-    <p class="text-lg text-gray-700">
-      Feature to track donor names, amounts, and dates goes here.
-    </p>
+    <h2 class="text-2xl font-bold text-green-700 mb-6">Donation Records</h2>
+
+    <form id="donationForm" class="space-y-4">
+      <input type="text" id="donorName" placeholder="Donor Name" required
+        class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500" />
+
+      <input type="number" id="donationAmount" placeholder="Amount (₦)" required
+        class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500" />
+
+      <input type="date" id="donationDate" required
+        class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500" />
+
+      <button type="submit"
+        class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded transition">
+        Add Donation
+      </button>
+    </form>
+
+    <div id="donationList" class="mt-8 text-left">
+      <h3 class="text-xl font-semibold text-gray-800 mb-2">Recent Donations:</h3>
+      <ul id="records" class="space-y-2"></ul>
+    </div>
   </div>
+
+  <script>
+    const form = document.getElementById("donationForm");
+    const records = document.getElementById("records");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById("donorName").value;
+      const amount = document.getElementById("donationAmount").value;
+      const date = document.getElementById("donationDate").value;
+
+      if (!name || !amount || !date) return;
+
+      const listItem = document.createElement("li");
+      listItem.className = "bg-gray-100 p-3 rounded shadow";
+      listItem.innerHTML = `<strong>${name}</strong> donated ₦${amount} on <em>${date}</em>`;
+
+      records.prepend(listItem);
+
+      // Clear form
+      form.reset();
+    });
+  </script>
 
 </body>
 </html>
+
